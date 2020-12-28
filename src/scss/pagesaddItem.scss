@@ -1,0 +1,22 @@
+h2{
+  margin-top: 20px;
+}
+.addItems{
+  input, textarea{
+    max-width: 50%;
+    width: 100%;
+    display: block;
+    margin: 20px auto;
+    padding-left: 15px;
+    height: 40px;
+    border-radius: 20px;
+    border-color: #3a2b58;
+    outline: none;
+  }
+  textarea{
+    padding-top: 10px;
+    border: 2px solid #3a2b58 ;
+    resize: none;
+    height: 100px;
+  }
+}

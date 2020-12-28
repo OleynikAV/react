@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 
+import PagesaddItem from "./PagesaddItem";
+
 class Listitems extends Component {
+
     render() {
         return (
             <div>
@@ -10,4 +13,4 @@ class Listitems extends Component {
     }
 }
 
-export default Listitems;
+export default Listitems ;
