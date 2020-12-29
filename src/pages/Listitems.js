@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-
-import PagesaddItem from "./PagesaddItem";
+import {connect} from 'react-redux'
 
 class Listitems extends Component {
 
@@ -8,9 +7,15 @@ class Listitems extends Component {
         return (
             <div>
                 <h2>Listitems</h2>
+
             </div>
         );
     }
 }
+function mapStateProps(state){
+    return{
+        user: state.itemsStore.user,
+    }
+}
 
-export default Listitems ;
+export default connect(mapStateProps)(Listitems) ;

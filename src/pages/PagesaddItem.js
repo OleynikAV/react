@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import '../scss/pagesaddItem.scss'
+import base from "../firebase";
 
 class PagesaddItem extends Component {
     nameRef = React.createRef();
@@ -46,7 +47,7 @@ class PagesaddItem extends Component {
                 <h2>Добавить товар</h2>
                 <form action="" className={'addItems'} onSubmit={this.creatItems}>
                     <input ref={this.nameRef} type="text" name={'name'} placeholder={'Name'} autoComplete={'off'} minLength={20} maxLength={60} required/>
-                    <input ref={this.imagesRef} type="images" name={'images'} placeholder={'Images'} autoComplete={'off'} required/>
+                    <input ref={this.imagesRef} type="file" name={'images'} placeholder={'Images'} autoComplete={'off'} required/>
                     <textarea  ref={this.descriptionRef} name={'description'} placeholder={'Description'} autoComplete={'off'} maxLength={200}/>
                     <input  ref={this.priceRef} type="number" name={'price'} placeholder={'Price'} required max={'99999999.99'} min={0}/>
                     <input ref={this.salePriceRef} type="number" name={'salePrice'} min={10} max={90} placeholder={'Sale Price %'}/>
