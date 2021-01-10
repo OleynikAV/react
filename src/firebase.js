@@ -1,5 +1,4 @@
 import firebase from "firebase";
-import Rebase from 're-base'
 
 let firebaseConfig = {
     apiKey: "AIzaSyBDm3Svk8RWLM7FcAUcuvRA57Rpl1h3tY8",
@@ -11,8 +10,9 @@ let firebaseConfig = {
     appId: "1:15131244874:web:5d1478ced5777c8ff369b3"
 };
 const fire = firebase.initializeApp(firebaseConfig);
-const  base = Rebase.createClass(fire.database());
+const  base = fire.database();
+const  storage = fire.storage();
 
-export {base}
+export {base , storage}
 
 export default  fire
