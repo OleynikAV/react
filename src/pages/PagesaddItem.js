@@ -14,7 +14,14 @@ class PagesaddItem extends Component {
     saleDateRef = React.createRef();
 
     state = {
-        item:{},
+        items:{},
+    }
+    componentDidMount() {
+        const db = base.database();
+        console.log(db)
+        const ds = storage.storage();
+        console.log(ds , 'storage')
+
     }
     // addItems = (item) =>{
     //
@@ -25,6 +32,7 @@ class PagesaddItem extends Component {
     //     this.setState({items});
     //
     // }
+
 
     creatItems = (e) => {
         e.preventDefault()
@@ -37,8 +45,9 @@ class PagesaddItem extends Component {
             saleDate: parseFloat(this.saleDateRef.current.value),
         }
 
-        if (this.salePriceRef.current.value.length > 0){
+        if (this.priceRef.current.value.length){
             item.price = parseFloat(this.priceRef.current.value * this.salePriceRef.current.value / 100)
+            console.log('rqwerqewrqewrqewr')
         }else{
             item.price = parseFloat(this.priceRef.current.value)
         }
@@ -53,11 +62,16 @@ class PagesaddItem extends Component {
 
         // this.addItems(items)
 
+
+        // storage.storage().ref('images/' + item.images.name).put(item.images)
+        //     .on(storage.storage,()=>{
+        //         return storage.storage().ref('images/' + item.images.name).put(item.images)
+        //             .snapshot.downloadURL
+        //     })
+
         storage.storage().ref('images/' + item.images.name).put(item.images)
-            .on(storage.storage.STATE_CHANGED,()=>{
-                return storage.storage().ref('images/' + item.images.name).put(item.images)
-                    .snapshot.downloadURL
-            })
+
+        console.log(storage.storage().ref().child(item.images.name).getDownloadURL() , 'twertewr')
 
 
 
@@ -74,13 +88,7 @@ class PagesaddItem extends Component {
     }
 
 
-    componentDidMount() {
-        const db = base.database();
-        console.log(db)
-        const ds = storage.storage();
-        console.log(ds , 'storage')
 
-    }
 
     render() {
         return (
@@ -88,11 +96,11 @@ class PagesaddItem extends Component {
                 <h2>Добавить товар</h2>
                 <form action="" className={'addItems'} onSubmit={this.creatItems}>
                     <input ref={this.nameRef} type="text" name={'name'} placeholder={'Name'} autoComplete={'off'} minLength={20} maxLength={60} required/>
-                    <input ref={this.imagesRef} type="file" name={'images'} placeholder={'Images'} autoComplete={'off'} required  onChange={this.handleChange}/>
-                    <textarea  ref={this.descriptionRef} name={'description'} placeholder={'Description'} autoComplete={'off'} maxLength={200}/>
-                    <input  ref={this.priceRef} type="number" name={'price'} placeholder={'Price'} required max={'99999999.99'} min={0}/>
-                    <input ref={this.salePriceRef} type="number" name={'salePrice'} min={10} max={90} placeholder={'Sale Price %'} id={'salePrice'}/>
-                    <input ref={this.saleDateRef} type="number" name={'saleDate'} min={0}  placeholder={'Sale Date'}/>
+                    <input ref={this.imagesRef} type="file" name={'images'} placeholder={'Images'} autoComplete={'off'}  required />
+                    <textarea  ref={this.descriptionRef} name={'description'} placeholder={'Description'} autoComplete={'off'} maxLength={200} required/>
+                    <input  ref={this.priceRef} type="number" name={'price'} placeholder={'Price'} required max={'99999999.99'} min={0} />
+                    <input ref={this.salePriceRef} type="number" name={'salePrice'} min={10} max={90} placeholder={'Sale Price %'} id={'salePrice'} required/>
+                    <input ref={this.saleDateRef} type="number" name={'saleDate'} min={0}  placeholder={'Sale Date'} required/>
                     <button type={"submit"}>Добавить</button>
                 </form>
             </section>

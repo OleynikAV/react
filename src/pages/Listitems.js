@@ -4,26 +4,25 @@ import base from "../firebase";
 import storage from "firebase";
 
 class Listitems extends Component {
-    stateTest = {
-        itemss:{
+    state = {
+        items:[]
 
-        }
+
     }
     componentDidMount() {
 
-        let items = base.database().ref('items/' + postId);
+        const items = base.database().ref('items/');
         items.on('value', (snapshot) => {
             const data = snapshot.val();
-            console.log(data)
-            console.log({userName : snapshot.val().name})
-            console.log({userName : snapshot.val().images})
-            let img = {images : snapshot.val().images}
+            let nameLengths = Object.values(data);
+            this.setState({items:nameLengths})
         });
-//         var allstorage = storage.storage();
-//         var pathReference = allstorage.ref('images/stars.jpg');
-//
-// // Create a reference from a Google Cloud Storage URI
-//         var gsReference = storage.refFromURL('gs://bucket/images/stars.jpg')
+
+
+
+
+
+
 
 
     }
@@ -32,6 +31,17 @@ class Listitems extends Component {
         return (
             <div>
                 <h2>Listitems</h2>
+                {this.state.items.map((item,index)=>
+                    <div key={index}>
+                        <li>{item.name}</li>
+                        <li>{item.description}</li>
+                        <li>{item.price}</li>
+                        <li>{item.salePrice}</li>
+                        <li>{item.saleDate}</li>
+
+                    </div>
+
+                    )}
 
             </div>
         );
