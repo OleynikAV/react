@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import '../scss/pagesaddItem.scss'
 import base from "../firebase";
 import storage from "../firebase";
-import itemsStore from "../redusers/itemsStore";
+
 
 
 class PagesaddItem extends Component {
@@ -14,21 +14,21 @@ class PagesaddItem extends Component {
     saleDateRef = React.createRef();
 
     state = {
-        items:{},
+        item:{},
     }
-    addItems = (item) =>{
-
-        const items = {...this.state.items}
-
-        items[`items${Date.now()}`] = item
-
-        this.setState({items});
-
-    }
+    // addItems = (item) =>{
+    //
+    //     const items = {...this.state.items}
+    //
+    //     items[`items${Date.now()}`] = item
+    //
+    //     this.setState({items});
+    //
+    // }
 
     creatItems = (e) => {
         e.preventDefault()
-        const items = {
+        const item = {
             name: this.nameRef.current.value,
             images: this.imagesRef.current.files[0],
             description: this.descriptionRef.current.value,
@@ -38,36 +38,36 @@ class PagesaddItem extends Component {
         }
 
         if (this.salePriceRef.current.value.length > 0){
-            items.price = parseFloat(this.priceRef.current.value * this.salePriceRef.current.value / 100)
+            item.price = parseFloat(this.priceRef.current.value * this.salePriceRef.current.value / 100)
         }else{
-            items.price = parseFloat(this.priceRef.current.value)
+            item.price = parseFloat(this.priceRef.current.value)
         }
 
         if (this.saleDateRef.current.value.length > 0){
             var d = new Date();
             d.toLocaleDateString("en-US")
             d.setDate(d.getDate() + parseFloat(this.saleDateRef.current.value))
-            items.saleDate = d.toLocaleDateString("en-US")
+            item.saleDate = d.toLocaleDateString("en-US")
         }
 
 
-        this.addItems(items)
+        // this.addItems(items)
 
-        storage.storage().ref('images/' + items.images.name).put(items.images)
+        storage.storage().ref('images/' + item.images.name).put(item.images)
             .on(storage.storage.STATE_CHANGED,()=>{
-                return storage.storage().ref('images/' + items.images.name).put(items.images)
+                return storage.storage().ref('images/' + item.images.name).put(item.images)
                     .snapshot.downloadURL
             })
 
 
 
-        base.database().ref('items/' + items.name).set({
-            name: items.name,
-            images: items.images.name,
-            description: items.description,
-            price: items.price,
-            salePrice: items.salePrice,
-            saleDate: items.saleDate,
+        base.database().ref('items/' + item.name).set({
+            name: item.name,
+            images: item.images.name,
+            description: item.description,
+            price: item.price,
+            salePrice: item.salePrice,
+            saleDate: item.saleDate,
         })
         e.currentTarget.reset()
         alert('Форма отправилась')
