@@ -1,22 +1,26 @@
+
+
 const  SET_COUNT = "SET_COUNT"
 
 const defaultState = {
     items:{
-        name: "andrey"
+        name: 'Andrey'
     },
     isFetching: true,
 }
 
-export default  function reposReducer (statee = defaultState, action){
+
+
+export default  function reposReducer (state = defaultState, action){
 
     switch (action.type){
         case SET_COUNT:
             return {
-                ...statee,
+                ...state,
                 items: action.payload
             }
         default:
-            return statee
+            return state
     }
 }
 

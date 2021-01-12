@@ -1,49 +1,52 @@
-import React, {Component} from 'react';
+import React, {useEffect} from 'react';
 import '../scss/pagesaddItem.scss'
 import base from "../firebase";
 import storage from "../firebase";
 
 
 
-class PagesaddItem extends Component {
-    nameRef = React.createRef();
-    imagesRef = React.createRef();
-    descriptionRef = React.createRef();
-    priceRef = React.createRef();
-    salePriceRef = React.createRef();
-    saleDateRef = React.createRef();
+const PagesaddItem  = ()=> {
+   let nameRef = React.createRef();
+   let imagesRef = React.createRef();
+   let descriptionRef = React.createRef();
+   let priceRef = React.createRef();
+   let salePriceRef = React.createRef();
+   let saleDateRef = React.createRef();
 
 
-    componentDidMount() {
+    useEffect(()=>{
         const db = base.database();
         console.log(db)
         const ds = storage.storage();
         console.log(ds , 'storage')
+    })
 
-    }
-
-    creatItems = (e) => {
+    const creatItems = (e) => {
         e.preventDefault()
         const item = {
-            name: this.nameRef.current.value,
-            images: this.imagesRef.current.files[0],
-            description: this.descriptionRef.current.value,
-            price: parseFloat(this.priceRef.current.value),
-            salePrice: parseFloat(this.salePriceRef.current.value),
-            saleDate: parseFloat(this.saleDateRef.current.value),
+            name: nameRef.current.value,
+            images: imagesRef.current.files[0],
+            description: descriptionRef.current.value,
+            price: parseFloat(priceRef.current.value),
+            salePrice: parseFloat(salePriceRef.current.value),
+            saleDate: parseFloat(saleDateRef.current.value),
         }
 
-        item.price = parseFloat(this.priceRef.current.value * this.salePriceRef.current.value / 100)
+        if (priceRef.current.value.length){
+            item.price = parseFloat(priceRef.current.value * salePriceRef.current.value / 100)
+            console.log('rqwerqewrqewrqewr')
+        }else{
+            item.price = parseFloat(priceRef.current.value)
+        }
 
-
-        if (this.saleDateRef.current.value.length > 0){
+        if (saleDateRef.current.value.length > 0){
             var d = new Date();
             d.toLocaleDateString("en-US")
-            d.setDate(d.getDate() + parseFloat(this.saleDateRef.current.value))
+            d.setDate(d.getDate() + parseFloat(saleDateRef.current.value))
             item.saleDate = d.toLocaleDateString("en-US")
         }
 
-        let database = async ()=>{
+        let database = async ()=> {
             try {
                 const dowlandStoragee = await storage.storage().ref().child('images/' + item.images.name).put(item.images)
                 const linkDowland = await dowlandStoragee.ref.getDownloadURL()
@@ -58,36 +61,29 @@ class PagesaddItem extends Component {
                         salePrice: item.salePrice,
                         saleDate: item.saleDate,
                     })
-            }catch (e){
+            } catch (e) {
                 console.log(e.message)
             }
-
         }
         database()
-
         e.currentTarget.reset()
         alert('Форма отправилась')
     }
 
-
-
-
-    render() {
         return (
             <section>
                 <h2>Добавить товар</h2>
-                <form action="" className={'addItems'} onSubmit={this.creatItems}>
-                    <input ref={this.nameRef} type="text" name={'name'} placeholder={'Name'} autoComplete={'off'} minLength={20} maxLength={60} required/>
-                    <input ref={this.imagesRef} type="file" name={'images'} placeholder={'Images'} autoComplete={'off'}   required />
-                    <textarea  ref={this.descriptionRef} name={'description'} placeholder={'Description'} autoComplete={'off'} maxLength={200} required/>
-                    <input  ref={this.priceRef} type="number" name={'price'} placeholder={'Price'} required max={'99999999.99'} min={0} />
-                    <input ref={this.salePriceRef} type="number" name={'salePrice'} min={10} max={90} placeholder={'Sale Price %'} id={'salePrice'} required/>
-                    <input ref={this.saleDateRef} type="number" name={'saleDate'} min={0}  placeholder={'Sale Date'} required/>
+                <form action="" className={'addItems'} onSubmit={creatItems}>
+                    <input ref={nameRef} type="text" name={'name'} placeholder={'Name'} autoComplete={'off'} minLength={20} maxLength={60} required/>
+                    <input ref={imagesRef} type="file" name={'images'} placeholder={'Images'} autoComplete={'off'}  required />
+                    <textarea  ref={descriptionRef} name={'description'} placeholder={'Description'} autoComplete={'off'} maxLength={200} required/>
+                    <input  ref={priceRef} type="number" name={'price'} placeholder={'Price'} required max={'99999999.99'} min={0} />
+                    <input ref={salePriceRef} type="number" name={'salePrice'} min={10} max={90} placeholder={'Sale Price %'} id={'salePrice'} required/>
+                    <input ref={saleDateRef} type="number" name={'saleDate'} min={0}  placeholder={'Sale Date'} required/>
                     <button type={"submit"}>Добавить</button>
                 </form>
             </section>
         );
-    }
 }
 
 export default PagesaddItem;
