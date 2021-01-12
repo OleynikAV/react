@@ -13,9 +13,7 @@ class PagesaddItem extends Component {
     salePriceRef = React.createRef();
     saleDateRef = React.createRef();
 
-    state = {
-        items:{},
-    }
+
     componentDidMount() {
         const db = base.database();
         console.log(db)
@@ -23,16 +21,6 @@ class PagesaddItem extends Component {
         console.log(ds , 'storage')
 
     }
-    // addItems = (item) =>{
-    //
-    //     const items = {...this.state.items}
-    //
-    //     items[`items${Date.now()}`] = item
-    //
-    //     this.setState({items});
-    //
-    // }
-
 
     creatItems = (e) => {
         e.preventDefault()
@@ -45,12 +33,8 @@ class PagesaddItem extends Component {
             saleDate: parseFloat(this.saleDateRef.current.value),
         }
 
-        if (this.priceRef.current.value.length){
-            item.price = parseFloat(this.priceRef.current.value * this.salePriceRef.current.value / 100)
-            console.log('rqwerqewrqewrqewr')
-        }else{
-            item.price = parseFloat(this.priceRef.current.value)
-        }
+        item.price = parseFloat(this.priceRef.current.value * this.salePriceRef.current.value / 100)
+
 
         if (this.saleDateRef.current.value.length > 0){
             var d = new Date();
@@ -59,30 +43,28 @@ class PagesaddItem extends Component {
             item.saleDate = d.toLocaleDateString("en-US")
         }
 
+        let database = async ()=>{
+            try {
+                const dowlandStoragee = await storage.storage().ref().child('images/' + item.images.name).put(item.images)
+                const linkDowland = await dowlandStoragee.ref.getDownloadURL()
+                const db = await base.database()
+                    .ref('items/' + item.name)
+                    .set({
+                        name: item.name,
+                        images: item.images.name,
+                        imagesLink: linkDowland,
+                        description: item.description,
+                        price: item.price,
+                        salePrice: item.salePrice,
+                        saleDate: item.saleDate,
+                    })
+            }catch (e){
+                console.log(e.message)
+            }
 
-        // this.addItems(items)
+        }
+        database()
 
-
-        // storage.storage().ref('images/' + item.images.name).put(item.images)
-        //     .on(storage.storage,()=>{
-        //         return storage.storage().ref('images/' + item.images.name).put(item.images)
-        //             .snapshot.downloadURL
-        //     })
-
-        storage.storage().ref('images/' + item.images.name).put(item.images)
-
-        console.log(storage.storage().ref().child(item.images.name).getDownloadURL() , 'twertewr')
-
-
-
-        base.database().ref('items/' + item.name).set({
-            name: item.name,
-            images: item.images.name,
-            description: item.description,
-            price: item.price,
-            salePrice: item.salePrice,
-            saleDate: item.saleDate,
-        })
         e.currentTarget.reset()
         alert('Форма отправилась')
     }
@@ -96,7 +78,7 @@ class PagesaddItem extends Component {
                 <h2>Добавить товар</h2>
                 <form action="" className={'addItems'} onSubmit={this.creatItems}>
                     <input ref={this.nameRef} type="text" name={'name'} placeholder={'Name'} autoComplete={'off'} minLength={20} maxLength={60} required/>
-                    <input ref={this.imagesRef} type="file" name={'images'} placeholder={'Images'} autoComplete={'off'}  required />
+                    <input ref={this.imagesRef} type="file" name={'images'} placeholder={'Images'} autoComplete={'off'}   required />
                     <textarea  ref={this.descriptionRef} name={'description'} placeholder={'Description'} autoComplete={'off'} maxLength={200} required/>
                     <input  ref={this.priceRef} type="number" name={'price'} placeholder={'Price'} required max={'99999999.99'} min={0} />
                     <input ref={this.salePriceRef} type="number" name={'salePrice'} min={10} max={90} placeholder={'Sale Price %'} id={'salePrice'} required/>
