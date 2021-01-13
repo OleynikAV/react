@@ -29,6 +29,7 @@ const Listitems = ()=> {
                     document.querySelector('h2').innerHTML = 'Список товаров'
                     let nameLengths = Object.values(data);
                     setState(nameLengths)
+                    console.log(nameLengths)
                 }
 
             });
@@ -37,12 +38,12 @@ const Listitems = ()=> {
         }
     };
     const deleteItems = (index)=>{
-        const updatedState = state.filter((item,idx) => idx !== index );
+        console.log(index,'index')
+        const updatedState = state.filter((item) => item.itemID !== index );
         setState(updatedState);
 
         if (updatedState.length === 0){
             document.querySelector('h2').innerHTML = 'Данных нет';
-            console.log('длина стейте равно 1')
         }
 
     }
@@ -51,7 +52,7 @@ const Listitems = ()=> {
             <h2>Список товаров </h2>
 
             <div className={'container'}>
-                {state.map((item,index)=>
+                {state.map((item, index)=>
                     <div key={index} className={'items'}>
                         <li>Название товара: <br/> {item.name}</li>
                         <img src={item.imagesLink} alt={item.images}/>
@@ -59,7 +60,8 @@ const Listitems = ()=> {
                         <li>Цена со скидкой: <br/>{item.price}</li>
                         <li>Скидка: <br/> {item.salePrice}</li>
                         <li>Действие скидки: <br/> {item.saleDate}</li>
-                        <button onClick={()=> deleteItems(index)}>Удалить</button>
+                        <li>itemID <br/> {item.itemID}</li>
+                        <button onClick={()=> deleteItems(item.itemID)}>Удалить</button>
                     </div>
 
                 )}
