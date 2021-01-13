@@ -32,6 +32,14 @@ const PagesEditingItem = () => {
             console.log(e.message)
         }
     };
+    const downLoad = async ()=>{
+        try {
+
+
+        }catch (e){
+            console.log(e.message)
+        }
+    }
     const deleteItems = ()=>{
         console.log('test delete')
     }
@@ -43,9 +51,9 @@ const PagesEditingItem = () => {
                 {state.map((item,index)=>
                     <div key={index} className={'items'}>
                         <form action="">
-                            <input  type="text" name={'name'} value={item.name} placeholder={'Name'} autoComplete={'off'} minLength={20} maxLength={60} required/>
+                            <input  type="text" name={'name'} defaultValue={item.name} placeholder={'Name'} autoComplete={'off'} minLength={20} maxLength={60} required/>
                         </form>
-                        <button onClick={deleteItems}>Удалить</button>
+                        <button onClick={deleteItems}>отправить</button>
                     </div>
 
                 )}

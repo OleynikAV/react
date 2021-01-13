@@ -6,12 +6,14 @@ import '../scss/listitems.scss'
 const Listitems = ()=> {
 
     const [state, setState] = useState([])
-    console.log(state)
+    console.log(state, 'state')
 
 
     useEffect(()=> {
 
+
         upload()
+
 
     },[])
     const upload = async ()=>{
@@ -34,8 +36,15 @@ const Listitems = ()=> {
             console.log(e.message)
         }
     };
-    const deleteItems = ()=>{
-        console.log('test delete')
+    const deleteItems = (index)=>{
+        const updatedState = state.filter((item,idx) => idx !== index );
+        setState(updatedState);
+
+        if (updatedState.length === 0){
+            document.querySelector('h2').innerHTML = 'Данных нет';
+            console.log('длина стейте равно 1')
+        }
+
     }
     return (
         <div>
@@ -50,7 +59,7 @@ const Listitems = ()=> {
                         <li>Цена со скидкой: <br/>{item.price}</li>
                         <li>Скидка: <br/> {item.salePrice}</li>
                         <li>Действие скидки: <br/> {item.saleDate}</li>
-                        <button onClick={deleteItems}>Удалить</button>
+                        <button onClick={()=> deleteItems(index)}>Удалить</button>
                     </div>
 
                 )}

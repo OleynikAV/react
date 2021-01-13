@@ -31,36 +31,32 @@ const PagesaddItem  = ()=> {
             salePrice: parseFloat(salePriceRef.current.value),
             saleDate: parseFloat(saleDateRef.current.value),
         }
+        item.price = parseFloat(priceRef.current.value * salePriceRef.current.value / 100)
 
-        if (priceRef.current.value.length){
-            item.price = parseFloat(priceRef.current.value * salePriceRef.current.value / 100)
-            console.log('rqwerqewrqewrqewr')
-        }else{
-            item.price = parseFloat(priceRef.current.value)
-        }
+        let date = new Date();
+        date.toLocaleDateString("en-US")
+        date.setDate(date.getDate() + parseFloat(saleDateRef.current.value))
+        item.saleDate = date.toLocaleDateString("en-US")
 
-        if (saleDateRef.current.value.length > 0){
-            var d = new Date();
-            d.toLocaleDateString("en-US")
-            d.setDate(d.getDate() + parseFloat(saleDateRef.current.value))
-            item.saleDate = d.toLocaleDateString("en-US")
-        }
+
 
         let database = async ()=> {
             try {
                 const dowlandStoragee = await storage.storage().ref().child('images/' + item.images.name).put(item.images)
-                const linkDowland = await dowlandStoragee.ref.getDownloadURL()
+                const linkDowlandStorage = await dowlandStoragee.ref.getDownloadURL()
                 const db = await base.database()
                     .ref('items/' + item.name)
                     .set({
                         name: item.name,
                         images: item.images.name,
-                        imagesLink: linkDowland,
+                        imagesLink: linkDowlandStorage,
                         description: item.description,
                         price: item.price,
                         salePrice: item.salePrice,
                         saleDate: item.saleDate,
                     })
+                const deleteItems = await db.child('items/').ref.getDownloadURL()
+                console.log(deleteItems,'link dowlands items')
             } catch (e) {
                 console.log(e.message)
             }
@@ -68,6 +64,17 @@ const PagesaddItem  = ()=> {
         database()
         e.currentTarget.reset()
         alert('Форма отправилась')
+    }
+    const  test =  ()=>{
+        let testt = 0;
+        function asd(){
+             testt += 1
+        }
+        sessionStorage.setItem('test', testt )
+        asd()
+
+        console.log(testt)
+
     }
 
         return (
@@ -81,6 +88,7 @@ const PagesaddItem  = ()=> {
                     <input ref={salePriceRef} type="number" name={'salePrice'} min={10} max={90} placeholder={'Sale Price %'} id={'salePrice'} required/>
                     <input ref={saleDateRef} type="number" name={'saleDate'} min={0}  placeholder={'Sale Date'} required/>
                     <button type={"submit"}>Добавить</button>
+                    <button onClick={test}>test</button>
                 </form>
             </section>
         );
