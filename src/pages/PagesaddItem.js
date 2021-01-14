@@ -4,8 +4,10 @@ import base from "../firebase";
 import storage from "../firebase";
 
 
-
 const PagesaddItem  = ()=> {
+    const testfile = ()=> {
+
+    }
    let nameRef = React.createRef();
    let imagesRef = React.createRef();
    let descriptionRef = React.createRef();
@@ -57,7 +59,10 @@ const PagesaddItem  = ()=> {
         database()
         e.currentTarget.reset()
         alert('Форма отправилась')
+
     }
+
+
 
 
         return (
@@ -65,7 +70,7 @@ const PagesaddItem  = ()=> {
                 <h2>Добавить товар</h2>
                 <form action="" className={'addItems'} onSubmit={creatItems}>
                     <input ref={nameRef} type="text" name={'name'} placeholder={'Name'} autoComplete={'off'} minLength={20} maxLength={60} required/>
-                    <input ref={imagesRef} type="file" name={'images'} placeholder={'Images'} autoComplete={'off'}  required />
+                    <input ref={imagesRef} type="file" name={'images'} placeholder={'Images'} autoComplete={'off'}  onChange={testfile} required />
                     <textarea  ref={descriptionRef} name={'description'} placeholder={'Description'} autoComplete={'off'} maxLength={200} required/>
                     <input  ref={priceRef} type="number" name={'price'} placeholder={'Price'} required max={'99999999.99'} min={0} />
                     <input ref={salePriceRef} type="number" name={'salePrice'} min={10} max={90} placeholder={'Sale Price %'} id={'salePrice'} required/>

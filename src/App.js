@@ -82,8 +82,11 @@ function App() {
         authListener();
         upload()
 
+
     },[])
+
     const dispatch = useDispatch()
+
     const upload = async ()=>{
 
         try {
@@ -92,11 +95,10 @@ function App() {
                 const data = snapshot.val();
 
                 if (data == null){
-                    document.querySelector('h2').innerHTML = 'Данных нет'
+                    let nameLengths = [];
+                    dispatch(setCount(nameLengths))
                 }else {
-                    document.querySelector('h2').innerHTML = 'Список товаров'
                     let nameLengths = Object.values(data);
-                    // setState(nameLengths)
                     dispatch(setCount(nameLengths))
                 }
 
@@ -105,6 +107,7 @@ function App() {
             console.log(e.message)
         }
     };
+
 
 
   return (

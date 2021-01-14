@@ -1,35 +1,30 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import base from "../firebase";
 import '../scss/listitems.scss'
 import storage from "../firebase";
 import {useDispatch, useSelector} from "react-redux";
+import {Link} from "react-router-dom";
 
 
 const Listitems = ()=> {
 
-    const dispatch = useDispatch()
     const count = useSelector(state => state.items.items)
 
-    useEffect(()=>{
 
-
-    },[])
     const deleteItems = async (itemID,images)=>{
 
         try {
             const deleteItemDb = await base.database().ref('items/'+ itemID).remove()
             const deleteItemStorage = await storage.storage().ref().child('images/' + images).delete()
 
-
         }catch (e){
             console.log(e.message)
         }
-
-
     }
+
     return (
         <div>
-            <h2>Список товаров </h2>
+            <h2 id={'titleListItem'}> {count.length ? 'Список товаров' : 'Данных нет'}</h2>
 
             <div className={'container'}>
                 {count.map((item, index)=>
@@ -41,6 +36,7 @@ const Listitems = ()=> {
                         <li>Скидка: <br/> {item.salePrice}</li>
                         <li>Действие скидки: <br/> {item.saleDate}</li>
                         <button onClick={()=> deleteItems(item.itemID,item.images)}>Удалить</button>
+                        <Link to="/PagesEditingItem"><button>Редактирование товара</button></Link>
                     </div>
 
                 )}
@@ -49,6 +45,7 @@ const Listitems = ()=> {
 
         </div>
     );
+
 }
 
 

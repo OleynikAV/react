@@ -33,7 +33,7 @@ const PagesEditingItem = () => {
                 const linkDowlandStorage = await dowlandStoragee.ref.getDownloadURL()
 
                 const db = await base.database()
-                    .ref('items/' + count.itemID)
+                    .ref('itemss/' + count.itemID)
                     .set({
                         name: item.name,
                         images: item.images.name,
