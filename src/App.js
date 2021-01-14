@@ -4,6 +4,10 @@ import './App.scss'
 import fire from "./firebase";
 import Authorization from './components/authorization'
 import Navbar from "./components/navbar";
+import base from "./firebase";
+import {setCount} from "./reduсers/itemsStore";
+import {useDispatch} from "react-redux";
+
 
 function App() {
     const  [user , setUser] = useState('');
@@ -76,7 +80,31 @@ function App() {
 
     useEffect(()=>{
         authListener();
+        upload()
+
     },[])
+    const dispatch = useDispatch()
+    const upload = async ()=>{
+
+        try {
+            const items = await base.database().ref('items/');
+            items.on('value', (snapshot) => {
+                const data = snapshot.val();
+
+                if (data == null){
+                    document.querySelector('h2').innerHTML = 'Данных нет'
+                }else {
+                    document.querySelector('h2').innerHTML = 'Список товаров'
+                    let nameLengths = Object.values(data);
+                    // setState(nameLengths)
+                    dispatch(setCount(nameLengths))
+                }
+
+            });
+        }catch (e){
+            console.log(e.message)
+        }
+    };
 
 
   return (

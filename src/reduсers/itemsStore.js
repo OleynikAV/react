@@ -2,9 +2,7 @@
 const  SET_COUNT = "SET_COUNT"
 
 const defaultState = {
-    items:{
-        name: 'Andrey'
-    },
+    items:[],
     isFetching: true,
 }
 
