@@ -1,15 +1,13 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React from 'react';
 import base from "../firebase";
 import '../scss/listitems.scss'
 import storage from "../firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 
-
 const Listitems = ()=> {
-
     const count = useSelector(state => state.items.items)
-
+    const dispatch = useDispatch()
 
     const deleteItems = async (itemID,images)=>{
 
@@ -24,7 +22,7 @@ const Listitems = ()=> {
 
     return (
         <div>
-            <h2 id={'titleListItem'}> {count.length ? 'Список товаров' : 'Данных нет'}</h2>
+            <h2>{count.length ? 'Список товаров' : 'Данных нет'}</h2>
 
             <div className={'container'}>
                 {count.map((item, index)=>

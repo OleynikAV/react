@@ -72,7 +72,7 @@ const PagesaddItem  = ()=> {
                     <input ref={nameRef} type="text" name={'name'} placeholder={'Name'} autoComplete={'off'} minLength={20} maxLength={60} required/>
                     <input ref={imagesRef} type="file" name={'images'} placeholder={'Images'} autoComplete={'off'}  onChange={testfile} required />
                     <textarea  ref={descriptionRef} name={'description'} placeholder={'Description'} autoComplete={'off'} maxLength={200} required/>
-                    <input  ref={priceRef} type="number" name={'price'} placeholder={'Price'} required max={'99999999.99'} min={0} />
+                    <input  ref={priceRef} type="number" name={'price'} placeholder={'Price'} required max={'99999999.99'} min={0} step={'any'}/>
                     <input ref={salePriceRef} type="number" name={'salePrice'} min={10} max={90} placeholder={'Sale Price %'} id={'salePrice'} required/>
                     {/*<input ref={saleDateRef} type="number" name={'saleDate'} min={0}  placeholder={'Sale Date'} required/>*/}
                     <button type={"submit"}>Добавить</button>
