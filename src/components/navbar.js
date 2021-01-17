@@ -1,7 +1,6 @@
 import React from 'react'
 import '../scss/navbar.scss'
 
-import Home from "../pages/Home";
 import Listitems from '../pages/Listitems'
 import PagesaddItem from '../pages/PagesaddItem'
 import PagesEditingItem from "../pages/PagesEditingItem";
@@ -12,7 +11,6 @@ const Navbar = ({handleLogout}) => {
         <Router>
 
             <ul>
-                <li><Link to="/">Home</Link></li>
                 <li><Link to="/Listitems">Список товаров</Link></li>
                 <li><Link to="/PagesaddItem">Добавление нового товара</Link></li>
                 <li><Link to="/PagesEditingItem">Редактирование товара</Link></li>
@@ -20,11 +18,10 @@ const Navbar = ({handleLogout}) => {
             </ul>
 
             <Switch>
-                <Route exact path="/Home" component={Home}/>
                 <Route exact path="/Listitems" component={Listitems}/>
                 <Route exact path="/PagesaddItem" component={PagesaddItem}/>
                 <Route exact path="/PagesEditingItem" component={PagesEditingItem}/>
-                <Redirect from='/' to='/home'/>
+                <Redirect from='/Listitems' to='/home'/>
             </Switch>
 
         </Router>

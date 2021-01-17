@@ -5,12 +5,16 @@ import fire from "./firebase";
 import Authorization from './components/authorization'
 import Navbar from "./components/navbar";
 import base from "./firebase";
-import {setCount} from "./reduсers/itemsStore";
-import {useDispatch} from "react-redux";
+import {setCount, setUsers} from "./reduсers/itemsStore";
+import {useDispatch, useSelector} from "react-redux";
 
 
 function App() {
-    const  [user , setUser] = useState('');
+    const dispatchItems = useDispatch()
+    const dispatchUsers = useDispatch()
+    const stateUsers = useSelector(state => state.storeUsers.users)
+
+
     const  [email , setEmail] = useState('');
     const  [password, setPassword] = useState('');
     const  [emailError, setEmailError] = useState('');
@@ -71,9 +75,11 @@ function App() {
         fire.auth().onAuthStateChanged(user =>{
             if (user){
                 clearInputs()
-                setUser(user)
+                // setUser(user)
+                dispatchItems({ type: 'SET_USERS', payload:user })
             }else {
-                setUser("")
+                // setUser("")
+                dispatchItems({ type: 'SET_USERS', payload: user })
             }
         })
     }
@@ -85,8 +91,6 @@ function App() {
 
     },[])
 
-    const dispatch = useDispatch()
-
     const upload = async ()=>{
 
         try {
@@ -96,10 +100,11 @@ function App() {
 
                 if (data == null){
                     let nameLengths = [];
-                    dispatch(setCount(nameLengths))
+                    dispatchItems(setCount(nameLengths))
                 }else {
                     let nameLengths = Object.values(data);
-                    dispatch(setCount(nameLengths))
+                    // dispatchItems(setCount(nameLengths))
+                    dispatchItems({ type: 'SET_ITEMS', payload:nameLengths })
                 }
 
             });
@@ -112,7 +117,7 @@ function App() {
 
   return (
     <div className="App">
-        {user ? (
+        {stateUsers ? (
             <Navbar handleLogout={handleLogout}/>
         ):(
             <Authorization email={email}

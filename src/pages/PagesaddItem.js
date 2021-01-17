@@ -1,13 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import '../scss/pagesaddItem.scss'
 import base from "../firebase";
 import storage from "../firebase";
 
 
 const PagesaddItem  = ()=> {
-    const testfile = ()=> {
 
-    }
    let nameRef = React.createRef();
    let imagesRef = React.createRef();
    let descriptionRef = React.createRef();
@@ -23,15 +21,14 @@ const PagesaddItem  = ()=> {
             description: descriptionRef.current.value,
             price: parseFloat(priceRef.current.value),
             salePrice: parseFloat(salePriceRef.current.value),
-            // saleDate: parseFloat(saleDateRef.current.value),
+            saleDate: parseFloat(saleDateRef.current.value),
         }
         item.price = parseFloat(priceRef.current.value * salePriceRef.current.value / 100)
 
-        // let date = new Date();
-        // date.toLocaleDateString("en-US")
-        // date.setDate(date.getDate() + parseFloat(saleDateRef.current.value))
-        // item.saleDate = date.toLocaleDateString("en-US")
-
+        let date = new Date();
+        date.toLocaleDateString("en-US")
+        date.setDate(date.getDate() + parseFloat(saleDateRef.current.value))
+        item.saleDate = date.toLocaleDateString("en-GB")
 
         let database = async ()=> {
             try {
@@ -48,7 +45,7 @@ const PagesaddItem  = ()=> {
                             description: item.description,
                             price: item.price,
                             salePrice: item.salePrice,
-                            // saleDate: item.saleDate,
+                            saleDate: item.saleDate,
                             itemID: db.ref.key,
                 })
 
@@ -61,20 +58,16 @@ const PagesaddItem  = ()=> {
         alert('Форма отправилась')
 
     }
-
-
-
-
         return (
             <section>
                 <h2>Добавить товар</h2>
                 <form action="" className={'addItems'} onSubmit={creatItems}>
-                    <input ref={nameRef} type="text" name={'name'} placeholder={'Name'} autoComplete={'off'} minLength={20} maxLength={60} required/>
-                    <input ref={imagesRef} type="file" name={'images'} placeholder={'Images'} autoComplete={'off'}  onChange={testfile} required />
-                    <textarea  ref={descriptionRef} name={'description'} placeholder={'Description'} autoComplete={'off'} maxLength={200} required/>
-                    <input  ref={priceRef} type="number" name={'price'} placeholder={'Price'} required max={'99999999.99'} min={0} step={'any'}/>
-                    <input ref={salePriceRef} type="number" name={'salePrice'} min={10} max={90} placeholder={'Sale Price %'} id={'salePrice'} required/>
-                    {/*<input ref={saleDateRef} type="number" name={'saleDate'} min={0}  placeholder={'Sale Date'} required/>*/}
+                    <input ref={nameRef} type="text" name={'name'} placeholder={'Название товара'} autoComplete={'off'} minLength={20} maxLength={60} required/>
+                    <input ref={imagesRef} type="file" name={'images'} autoComplete={'off'}  required />
+                    <textarea  ref={descriptionRef} name={'description'} placeholder={'Описание'} autoComplete={'off'} maxLength={200} required/>
+                    <input  ref={priceRef} type="number" name={'price'} placeholder={'Цена'} required max={'99999999.99'} min={0} step={'any'}/>
+                    <input ref={salePriceRef} type="number" name={'salePrice'} min={10} max={90} placeholder={'% скидки'} id={'salePrice'} required/>
+                    <input ref={saleDateRef} type="number" name={'saleDate'} min={0}  placeholder={'Дата окончание скидки'} required/>
                     <button type={"submit"}>Добавить</button>
                 </form>
             </section>

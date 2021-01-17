@@ -11,9 +11,7 @@ const PagesEditingItem = () => {
     let priceRef = React.createRef();
     let salePriceRef = React.createRef();
     let saleDateRef = React.createRef();
-    let itemIdRef = React.createRef();
-
-    const count = useSelector(state => state.items.items)
+    const count = useSelector(state => state.storeItems.items)
 
     const editionItem = (e, itemID)=>{
         console.log(itemID,'id')
@@ -26,9 +24,14 @@ const PagesEditingItem = () => {
             price: parseFloat(priceRef.current.value),
             salePrice: parseFloat(salePriceRef.current.value),
             itemID: itemID,
-            // saleDate: parseFloat(saleDateRef.current.value),
+            saleDate: parseFloat(saleDateRef.current.value),
         }
         item.price = parseFloat(priceRef.current.value * salePriceRef.current.value / 100)
+
+        let date = new Date();
+        date.toLocaleDateString("en-US")
+        date.setDate(date.getDate() + parseFloat(saleDateRef.current.value))
+        item.saleDate = date.toLocaleDateString("en-GB")
 
         let database = async ()=> {
             try {
@@ -46,7 +49,7 @@ const PagesEditingItem = () => {
                     price: item.price,
                     salePrice: item.salePrice,
                     itemID: item.itemID,
-                    // saleDate: item.saleDate,
+                    saleDate: item.saleDate,
                 })
 
 
@@ -71,13 +74,11 @@ const PagesEditingItem = () => {
                         <form action="" className={'addItems'} onSubmit={(e)=> editionItem(e,item.itemID,item.imagesLink)}>
                             <input  ref={nameRef} type="text" name={'name'} defaultValue={item.name} placeholder={'Name'} autoComplete={'off'} minLength={20} maxLength={60} required/>
                             <img src={item.imagesLink} alt="item.images"/>
-                            <p>Текущий файл {item.images}</p>
                             <input ref={imagesRef} type="file" name={'images'}  placeholder={'Images'} autoComplete={'off'} required />
                             <textarea ref={descriptionRef}  name={'description'} defaultValue={item.description} placeholder={'Description'} autoComplete={'off'} maxLength={200} required/>
                             <input  ref={priceRef} type="number" name={'price'} defaultValue={item.price}  placeholder={'Price'} required max={'99999999.99'} min={0} step={'any'} />
                             <input ref={salePriceRef} type="number" name={'salePrice'} defaultValue={item.salePrice} min={10} max={90} placeholder={'Sale Price %'} id={'salePrice'} required/>
-                            {/*<input  type="text" name={'saleDate'} defaultValue={item.saleDate} min={0}  placeholder={'Sale Date'} required/>*/}
-
+                            <input  ref={saleDateRef} type="text" name={'saleDate'} defaultValue={item.saleDate} min={0}  placeholder={'Sale Date'} required/>
                             <button type={"submit"}>Редактировать</button>
                         </form>
                     </div>
