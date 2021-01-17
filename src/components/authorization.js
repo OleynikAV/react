@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import '../scss/authorization.scss'
 
 const Authorization = (props)=>{

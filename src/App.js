@@ -5,13 +5,11 @@ import fire from "./firebase";
 import Authorization from './components/authorization'
 import Navbar from "./components/navbar";
 import base from "./firebase";
-import {setCount, setUsers} from "./reduсers/itemsStore";
 import {useDispatch, useSelector} from "react-redux";
 
 
 function App() {
-    const dispatchItems = useDispatch()
-    const dispatchUsers = useDispatch()
+    const dispatch = useDispatch()
     const stateUsers = useSelector(state => state.storeUsers.users)
 
 
@@ -76,10 +74,10 @@ function App() {
             if (user){
                 clearInputs()
                 // setUser(user)
-                dispatchItems({ type: 'SET_USERS', payload:user })
+                dispatch({ type: 'SET_USERS', payload:user })
             }else {
                 // setUser("")
-                dispatchItems({ type: 'SET_USERS', payload: user })
+                dispatch({ type: 'SET_USERS', payload: user })
             }
         })
     }
@@ -100,11 +98,11 @@ function App() {
 
                 if (data == null){
                     let nameLengths = [];
-                    dispatchItems(setCount(nameLengths))
+                    dispatch({ type: 'SET_ITEMS', payload:nameLengths })
                 }else {
                     let nameLengths = Object.values(data);
                     // dispatchItems(setCount(nameLengths))
-                    dispatchItems({ type: 'SET_ITEMS', payload:nameLengths })
+                    dispatch({ type: 'SET_ITEMS', payload:nameLengths })
                 }
 
             });
