@@ -21,7 +21,7 @@ const Navbar = ({handleLogout}) => {
                 <Route exact path="/Listitems" component={Listitems}/>
                 <Route exact path="/PagesaddItem" component={PagesaddItem}/>
                 <Route exact path="/PagesEditingItem" component={PagesEditingItem}/>
-                <Redirect from='/Listitems' to='/home'/>
+                <Redirect from='/' to='/Listitems'/>
             </Switch>
 
         </Router>
